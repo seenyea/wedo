@@ -1,0 +1,13 @@
+.page-portal {
+    text-align: center;
+    color: rgb(203, 198, 192);
+    display: flex;
+    flex-direction: column;
+    flex-flow: row nowrap;
+    flex-grow: 1;
+    height: 100%;
+}
+
+.align-right {
+    text-align: right;
+}

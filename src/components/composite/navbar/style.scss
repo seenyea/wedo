@@ -1,0 +1,11 @@
+.composite-navbar{
+    padding: 0 0.5rem;
+    background-color: var(--clr-header-bg);
+    a.navbar-item.log{
+        background-color: transparent;
+    }
+    a.logo{
+        font-weight: bolder;
+        color: var(--clr-primary);
+    }
+}

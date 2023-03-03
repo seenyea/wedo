@@ -1,0 +1,14 @@
+.group-layout{
+
+}
+
+.group-dash-border-layout{
+    border-left: 1px dashed rgba(0, 0, 0, .18);
+    padding-left: 8px;
+    box-sizing: border-box;
+    margin-top: 24px;
+
+    &:first-child{
+        margin-top: 0;
+    }
+}

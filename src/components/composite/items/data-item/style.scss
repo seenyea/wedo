@@ -1,0 +1,34 @@
+/* data Item Styles */
+.data-item {
+    padding: 0.9em 1em;
+    border-bottom: 1px solid #ddd;
+    border-left: 6px solid transparent;
+}
+
+.data-avatar {
+    border-radius: 3px;
+    margin-right: 0.5em;
+}
+
+.data-name,
+.data-subject {
+    margin: 0;
+}
+
+.data-name {
+    text-transform: uppercase;
+    color: #999;
+}
+
+.data-desc {
+    font-size: 80%;
+    margin: 0.4em 0;
+}
+
+.data-item-selected {
+    background: #eee;
+}
+
+.data-item-unread {
+    border-left: 6px solid #1b98f8;
+}

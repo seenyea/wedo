@@ -1,0 +1,22 @@
+.composite-table-panel{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+    .composite-table-panel-filter{
+        padding: 1rem 0;
+    }
+
+    .composite-table-panel-content{
+        flex: 1;
+        overflow: auto;
+    }
+
+    .composite-table-panel-content-table-wrapper{
+       & > div > table {
+           td{
+               text-align: left;
+           }
+       }
+    }
+}

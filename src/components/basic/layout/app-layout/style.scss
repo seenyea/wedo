@@ -1,0 +1,19 @@
+html,
+body {
+    height: 100%;
+}
+
+.app-layout {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-layout-header {
+    flex: none;
+}
+
+.app-layout-content {
+    flex: 1;
+    overflow: auto;
+}

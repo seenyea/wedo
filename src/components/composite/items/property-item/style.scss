@@ -1,0 +1,14 @@
+/* data Item Styles */
+.property-item {
+    padding: 0.9em 1em;
+    border-bottom: 1px solid #ddd;
+    border-left: 6px solid transparent;
+}
+
+.property-item-selected {
+    background-color: #ddd;
+}
+
+.property-item-unread {
+    border-left: 6px solid #1b98f8;
+}

@@ -1,0 +1,18 @@
+html,body{
+    height: 100%;
+  }
+
+.layout {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .layout-header {
+    flex: none;
+  }
+
+  .layout-content {
+    flex: 1;
+    overflow: auto;
+  }
