@@ -1,39 +1,49 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { DataViewItem } from '@src/model/data/model';
+import { DataViewItemProperty } from '@src/model/portal/model';
 import PropertyItem from '@src/components/composite/items/property-item/PropertyItem';
+import { bindUpdateToStore, callUpdateToStroe } from '@src/model/share-store';
+
+import { statisticBasic, statisticGraph, linearRegression } from '@src/pages/portal/module';
 
 interface PropertyListProps {
-    lists: DataViewItem[]
+    lists?: DataViewItemProperty[],
+    mId: string,
+    onFilterData: any
 }
-export default (propertyListProps: PropertyListProps) => {
-    const { lists } = propertyListProps;
 
-    const [data, setData] = useState(lists);
+let _dataId: any = '-1';
+export default (propertyListProps: PropertyListProps) => {
+    const { mId, onFilterData } = propertyListProps;
+    const [data, setData] = useState(null);
+    console.log('PropertyList render', _dataId, data);
 
     const onItemClick = useCallback((value: string) => {
-        const d = data.map(e => {
-            e.isSelected = e.id === value;
-            return e;
+        console.log('property onItemClick', _dataId, data);
+        const newData = onFilterData(_dataId, value);
+        setData({ ...newData })
+        const { key } = newData;
+        callUpdateToStroe(statisticBasic, '1', [_dataId, key]);
+        callUpdateToStroe(statisticGraph, '1', [_dataId, key]);
+        callUpdateToStroe(linearRegression, '1', [_dataId, key]);
+    }, []);
+
+    useEffect(() => {
+
+        bindUpdateToStore(mId, '1', (d: any) => {
+            
+            const [dataId, propertyId] = d;
+            const newData = onFilterData(dataId, propertyId);
+            _dataId = dataId;
+            setData({ ...newData })
+            
         })
-        setData([...d]);
+
     }, []);
 
     return <div className="property-list-wrapper pure-u-1">
-        {lists.map((e: DataViewItem) => {
-            const {
-                id,
-                title,
-                description,
-                type,
-                properties,
-                isSelected
-            } = e;
-            const { imgSrc } = type;
-            const { main, subject } = title;
-
-            return <PropertyItem data={e} imgSrc={imgSrc} description={description} main={main} subject={subject} isSelected={isSelected} onItemClick={onItemClick
-            } />
+        {data && data.properties.map((e: DataViewItemProperty) => {
+            return <PropertyItem data={e} onItemClick={onItemClick} />
         })}
     </div>
 }

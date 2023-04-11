@@ -5,8 +5,11 @@ export interface DataViewItemPropertyDescription{
 export interface DataViewItemProperty{
     id: string,
     name: string,
-    description: DataViewItemPropertyDescription,
+    description: string,
     type: string,
+    isNumber?: boolean,
+    key?: string,
+    isSelected?: boolean
 }
 
 export interface DataViewItem {

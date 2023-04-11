@@ -30,7 +30,7 @@ export const callUpdateToStroe = (module: string, props: string, data: any): voi
     actionLists[module] = actionLists[module] || {};
     const actionList = actionLists[module];
     const fns = actionList[props] || [];
-    console.log('callUpdateToStroe', actionLists, fns);
+    console.log('callUpdateToStroe', module, props, actionLists, fns, data);
     fns.forEach((fn: any) => {
         fn(data)
     });

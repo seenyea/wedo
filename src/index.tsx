@@ -11,7 +11,6 @@ import { addShareStore } from '@src/model/share-store'
 
 addShareStore('Analysis', {});
 addShareStore('Portal', {});
-addShareStore('ProcessData', {});
 
 
 import App from './app';

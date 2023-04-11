@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -8,23 +9,25 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+
 const { DEV, DEBUG } = process.env;
 
 process.env.BABEL_ENV = DEV ? 'development' : 'production';
 process.env.NODE_ENV = DEV ? 'development' : 'production';
 
 module.exports = {
-  entry: './src/index.tsx',
+  entry: {
+    vendor: ['react', 'react-dom'],
+    main: './src/index.tsx'
+  },
   output: {
     path: path.join(__dirname, '/dist'),
-    filename: 'bundle.js',
-    clean: true,
+    filename: '[name].js',
+    chunkFilename: '[name].bundle.js'
   },
   devServer: {
-    port: 8080,
+    port: 9910,
     historyApiFallback: true,
-    // 端口
-    port: 9000,
     // 开启压缩
     compress: true,
     // 打开默认浏览器
@@ -47,6 +50,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
+        include: path.resolve(__dirname, './src'),
         loader: 'babel-loader',
         options: {
           presets: ['@babel/preset-env'],
@@ -56,19 +60,21 @@ module.exports = {
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
+        include: path.resolve(__dirname, './src'),
         loader: 'ts-loader',
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: ['style-loader', 'css-loader'],
       },
       // 处理 .less
       {
         test: /\.less$/,
+        exclude: /node_modules/,
         use: [
           'style-loader',
           'css-loader',
-          // less-loader
           {
             loader: 'less-loader',
             options: {
@@ -88,6 +94,7 @@ module.exports = {
       },
       {
         test: /\.(sass|scss)$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
@@ -139,15 +146,11 @@ module.exports = {
     ],
     minimize: !DEV,
     splitChunks: {
-      minSize: 500000,
-      cacheGroups: {
-        vendors: false,
-      },
+      chunks: 'all'
     },
   },
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.less', 'scss'],
+    extensions: ['.json', '.js', '.jsx', '.ts', '.tsx', '.less', '.scss'],
     alias: {
         "@src": path.resolve(__dirname, 'src'),
     }
@@ -159,7 +162,7 @@ module.exports = {
       inject: true,
       title: "WeDo"
     }),
-    DEBUG && new BundleAnalyzerPlugin(),
+    new BundleAnalyzerPlugin(),
     new CopyWebpackPlugin({
       patterns: [{
           from: path.resolve(__dirname, './src/statics'),
@@ -173,5 +176,6 @@ module.exports = {
     }),
     //new ESLintPlugin(),
     new ForkTsCheckerWebpackPlugin(),
+    new webpack.HotModuleReplacementPlugin()
   ].filter(Boolean),
 };

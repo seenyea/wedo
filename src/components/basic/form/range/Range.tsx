@@ -13,9 +13,9 @@ function useInput(defaultValue: string) {
     };
 }
 
-export default ({ defaultValue }: any) => {
+export default ({ defaultValue, min = 0, max = 11 }: any) => {
     const rangeProps = useInput(defaultValue);
     return <div className="input-range-wrapper">
-        <input type="range" min="0" max="11" {...rangeProps} />
+        <input type="range" min={min} max={max} {...rangeProps} />
     </div>
 }

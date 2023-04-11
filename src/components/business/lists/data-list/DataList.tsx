@@ -1,32 +1,50 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { DataViewItem } from '@src/model/data/model';
 import DataItem from '@src/components/composite/items/data-item/DataItem';
+import { bindUpdateToStore, callUpdateToStroe, } from '@src/model/share-store';
+import DataWaiting from '@src/components/composite/loading/data-waiting/DataWaiting'
+import { propertyLists, statisticBasic, statisticGraph, linearRegression } from '@src/pages/portal/module';
 
 interface DataListProperty{
-    lists: DataViewItem[]
+    lists?: DataViewItem[],
+    mId: string,
+    onFilterData: any
 }
 export default (dataListProperty: DataListProperty) => {
-    const { lists } = dataListProperty;
+    const { mId, onFilterData } = dataListProperty;
 
-    const [data, setData] = useState(lists);
+    const [data, setData] = useState(null);
 
     const onDataItemClick = useCallback((value: string) => {
-        const d = data.map(e => {
-           e.isSelected = e.id === value;
-           return e;
+        const { id, lists } = onFilterData(value);
+        setData([...lists]);
+
+        callUpdateToStroe(propertyLists, '1', [id, '1']);
+
+        callUpdateToStroe(statisticBasic, '1', [id, 'r1']);
+        callUpdateToStroe(statisticGraph, '1', [id, 'r1']);
+        callUpdateToStroe(linearRegression, '1', [id, 'r1']);
+
+    }, [data]);
+
+    useEffect(() => {
+
+        bindUpdateToStore(mId, '1', (data: any) => {
+            const { lists } = onFilterData(data);
+            setData([...lists]);
         })
-        setData([...d]);
+
     }, []);
     
     return <div className="data-list-wrapper pure-u-1">
-        {lists.map((e: DataViewItem) => {
+        {!data && <DataWaiting />}
+        {data && data.map((e: DataViewItem) => {
             const {
                 id,
                 title,
                 description,
                 type,
-                properties,
                 isSelected
             } = e;
             const { imgSrc }= type;

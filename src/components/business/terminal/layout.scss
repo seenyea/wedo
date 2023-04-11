@@ -1,0 +1,19 @@
+.terminal-wrapper{
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+    flex-direction: column;
+    .terminal-header{
+        height: 64px;
+    }
+    .terminal-body {
+        flex: 1;
+        overflow: scroll;
+        background-color: #f0f0f0;
+    }
+    .terminal-footer {
+        height: 48px;
+        border-top: 1px solid rgba(0, 0, 0, .18);
+        background-color: #f0f0f3;
+    }
+}
